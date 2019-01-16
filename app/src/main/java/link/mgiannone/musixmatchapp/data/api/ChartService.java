@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface ChartService {
 
-	//get the top 100 songs in Ireland, filtering by songs with an available lyrics
+	//get the top 100 songs for a country, filtering by songs with an available lyrics
 	@GET("chart.tracks.get")
 	@Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
 	Observable<ChartResponse> getIrishChart(
@@ -18,5 +18,4 @@ public interface ChartService {
 			@Query("country") String country,
 			@Query("f_has_lyrics") int hasLyrics,
 			@Query("apikey") String apiKey);
-
 }

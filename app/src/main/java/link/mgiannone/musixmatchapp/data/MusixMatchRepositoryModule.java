@@ -4,10 +4,12 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import link.mgiannone.musixmatchapp.data.repository.AlbumDataSource;
 import link.mgiannone.musixmatchapp.data.repository.ChartDataSource;
 import link.mgiannone.musixmatchapp.data.repository.Local;
 import link.mgiannone.musixmatchapp.data.repository.Remote;
 import link.mgiannone.musixmatchapp.data.repository.local.ChartLocalDataSource;
+import link.mgiannone.musixmatchapp.data.repository.remote.AlbumRemoteDataSource;
 import link.mgiannone.musixmatchapp.data.repository.remote.ChartRemoteDataSource;
 
 
@@ -26,6 +28,13 @@ public class MusixMatchRepositoryModule {
 	@Singleton
 	public ChartDataSource provideRemoteChartDataSource(ChartRemoteDataSource chartRemoteDataSource) {
 		return chartRemoteDataSource;
+	}
+
+	@Provides
+	@Remote
+	@Singleton
+	public AlbumDataSource provideRemoteAlbumDataSource(AlbumRemoteDataSource albumRemoteDataSource) {
+		return albumRemoteDataSource;
 	}
 
 }

@@ -46,4 +46,5 @@ ext {
   rxAndroidVersion = '2.0.1'
   stethoVersion = '1.5.0'
   leakcanaryVersion = '1.5.4'
+  glideVersion = '4.3.1'
 }

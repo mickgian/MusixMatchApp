@@ -17,15 +17,18 @@ public class MusixMatchRepository implements ChartDataSource {
 
 	private ChartDataSource remoteChartDataSource;
 	private ChartDataSource localChartDataSource;
+	private AlbumDataSource remoteAlbumDataSource;
 
 	@VisibleForTesting
 	List<TrackList> trackCaches;
 
 	@Inject
 	public MusixMatchRepository(@Local ChartDataSource localChartDataSource,
-								@Remote ChartDataSource remoteChartDataSource) {
+								@Remote ChartDataSource remoteChartDataSource,
+								@Remote AlbumDataSource remoteAlbumDataSource) {
 		this.localChartDataSource = localChartDataSource;
 		this.remoteChartDataSource = remoteChartDataSource;
+		this.remoteAlbumDataSource = remoteAlbumDataSource;
 
 		trackCaches = new ArrayList<>();
 	}

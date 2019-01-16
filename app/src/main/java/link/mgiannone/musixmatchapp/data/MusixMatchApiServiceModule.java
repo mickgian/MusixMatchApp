@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import link.mgiannone.musixmatchapp.data.api.AlbumService;
 import link.mgiannone.musixmatchapp.data.api.ChartService;
 import link.mgiannone.musixmatchapp.data.api.HeaderInterceptor;
 import okhttp3.OkHttpClient;
@@ -73,6 +74,12 @@ public class MusixMatchApiServiceModule {
 	@Singleton
 	ChartService provideChartService(Retrofit retrofit) {
 		return retrofit.create(ChartService.class);
+	}
+
+	@Provides
+	@Singleton
+	AlbumService provideAlbumService(Retrofit retrofit) {
+		return retrofit.create(AlbumService.class);
 	}
 
 }

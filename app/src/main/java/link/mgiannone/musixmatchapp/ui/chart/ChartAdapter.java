@@ -1,12 +1,17 @@
 package link.mgiannone.musixmatchapp.ui.chart;
 
 import android.content.Context;
+
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.bumptech.glide.Glide;
 
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -25,6 +30,8 @@ class ChartAdapter extends BaseRecyclerViewAdapter<ChartAdapter.TrackViewHolder>
 
 	class TrackViewHolder extends RecyclerView.ViewHolder {
 
+		@BindView(R.id.track_album_image_view)
+		ImageView trackAlbumImageView;
 		@BindView(R.id.track_title_text_view)
 		TextView trackTitleTextView;
 		@BindView(R.id.track_artist_text_view)
@@ -55,6 +62,9 @@ class ChartAdapter extends BaseRecyclerViewAdapter<ChartAdapter.TrackViewHolder>
 		TrackViewHolder vh = (TrackViewHolder) viewHolder; //safe cast
 		TrackList trackList = this.trackList.get(i);
 
+		Glide.with(vh.trackAlbumImageView)
+				.load(ResourcesCompat.getDrawable(context.getResources(), R.drawable.placeholder, null))
+				.into(vh.trackAlbumImageView);
 		vh.trackTitleTextView.setText(trackList.getTrack().getTrackName());
 		vh.trackArtistTextView.setText(trackList.getTrack().getArtistName());
 
