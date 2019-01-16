@@ -15,6 +15,16 @@
   <string name="data_loading">Loading tracks...</string>
   <string name="track_label_title">Song name:</string>
   <string name="track_label_artist">Artist:</string>
+
+  //Errors
   <string name="generic_error">Something has gone wrong. Try again.</string>
+  <string name="error_bad_syntax">The request had bad syntax or was inherently impossible to be satisfied.</string>
+  <string name="error_invalid_or_missing_api">Authentication failed, probably because of invalid/missing API key.</string>
+  <string name="error_limit_reached">The usage limit has been reached, either you exceeded per day requests limits or your balance is insufficient.</string>
+  <string name="error_no_authorized">You are not authorized to perform this operation.</string>
+  <string name="error_resource_not_found">The requested resource was not found.</string>
+  <string name="error_method_not_found">The requested method was not found.</string>
+  <string name="error_something_went_wrong">Ops. Something were wrong.</string>
+  <string name="error_system_busy">Our system is a bit busy at the moment and your request can’t be satisfied.</string>
 
 </resources>

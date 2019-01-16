@@ -21,6 +21,22 @@ public interface ChartContract {
 		void stopLoadingIndicator();
 
 		void showProgressBarIfHidden();
+
+		void showBadSyntaxError();
+
+		void showInvalidOrMissingApiError();
+
+		void showLimitReachedError();
+
+		void showNotAuthorizedError();
+
+		void showResourceNotFoundError();
+
+		void showRequestedMethodNotFound();
+
+		void showSomethingWentWrongError();
+
+		void showSystemBusyError();
 	}
 
 	interface Presenter extends BasePresenter<View> {

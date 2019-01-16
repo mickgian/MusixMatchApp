@@ -111,6 +111,38 @@ public class ChartActivity extends BaseActivity implements ChartContract.View {
 		showNotification(error);
 	}
 
+	@Override public void showBadSyntaxError() {
+		showNotification(getString(R.string.error_bad_syntax));
+	}
+
+	@Override public void showInvalidOrMissingApiError() {
+		showNotification(getString(R.string.error_invalid_or_missing_api));
+	}
+
+	@Override public void showLimitReachedError() {
+		showNotification(getString(R.string.error_limit_reached));
+	}
+
+	@Override public void showNotAuthorizedError() {
+		showNotification(getString(R.string.error_no_authorized));
+	}
+
+	@Override public void showResourceNotFoundError() {
+		showNotification(getString(R.string.error_resource_not_found));
+	}
+
+	@Override public void showRequestedMethodNotFound() {
+		showNotification(getString(R.string.error_method_not_found));
+	}
+
+	@Override public void showSomethingWentWrongError() {
+		showNotification(getString(R.string.error_something_went_wrong));
+	}
+
+	@Override public void showSystemBusyError() {
+		showNotification(getString(R.string.error_system_busy));
+	}
+
 	@Override public void stopLoadingIndicator() {
 		if (refreshLayout.isRefreshing()) {
 			refreshLayout.setRefreshing(false);

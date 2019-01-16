@@ -111,15 +111,37 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 					disposeBag.add(disposable);
 
 				}
+				break;
+			case 400:
+				view.showBadSyntaxError();
+			case 401:
+				view.showInvalidOrMissingApiError();
+				break;
+			case 402:
+				view.showLimitReachedError();
+				break;
+			case 403:
+				view.showNotAuthorizedError();
+				break;
+			case 404:
+				view.showResourceNotFoundError();
+				break;
+			case 405:
+				view.showRequestedMethodNotFound();
+				break;
+			case 500:
+				view.showSomethingWentWrongError();
+				break;
+			case 503:
+				view.showSystemBusyError();
+				break;
 
-				view.showTracks(tracks);
 		}
 
 	}
 
 	private void handleRemoteError(Throwable throwable) {
-
-		String message = throwable.getMessage();
+		view.showErrorMessage(throwable.getLocalizedMessage());
 	}
 
 	private void handleRemoteReturnedAlbum(AlbumResponse albumResponse) {
@@ -136,13 +158,36 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 				}
 
 				view.showTracks(tracks);
+				break;
+			case 400:
+				view.showBadSyntaxError();
+			case 401:
+				view.showInvalidOrMissingApiError();
+				break;
+			case 402:
+				view.showLimitReachedError();
+				break;
+			case 403:
+				view.showNotAuthorizedError();
+				break;
+			case 404:
+				view.showResourceNotFoundError();
+				break;
+			case 405:
+				view.showRequestedMethodNotFound();
+				break;
+			case 500:
+				view.showSomethingWentWrongError();
+				break;
+			case 503:
+				view.showSystemBusyError();
+				break;
 		}
 
 	}
 
 	private void handleRemoteAlbumError(Throwable throwable) {
-
-		String message = throwable.getMessage();
+		view.showErrorMessage(throwable.getLocalizedMessage());
 	}
 
 	/**
