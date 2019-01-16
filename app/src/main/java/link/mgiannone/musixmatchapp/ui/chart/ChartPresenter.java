@@ -13,6 +13,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 import link.mgiannone.musixmatchapp.data.Config;
+import link.mgiannone.musixmatchapp.data.model.AlbumResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
 import link.mgiannone.musixmatchapp.data.repository.MusixMatchRepository;
@@ -37,6 +38,8 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 	private Scheduler uiScheduler;
 
 	private CompositeDisposable disposeBag;
+
+	private List<TrackList> tracks;
 
 	@Inject public ChartPresenter(MusixMatchRepository repository, ChartContract.View view,
 								  @RunOn(IO) Scheduler ioScheduler, @RunOn(UI) Scheduler uiScheduler) {
@@ -97,15 +100,47 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 
 		switch (code){
 			case 200:
-				List<TrackList> tracks = chartResponse.getMessage().getBody().getTrackList();
-				TrackList trackList = tracks.get(0);
+				tracks = chartResponse.getMessage().getBody().getTrackList();
+				for(int i = 0; i < tracks.size(); i++){
+					Disposable disposable = repository.loadAlbum(
+							tracks.get(i).getTrack().getAlbumId(),
+							Config.MUSIX_MATCH_API_KEY)
+							.subscribeOn(ioScheduler)
+							.observeOn(uiScheduler)
+							.subscribe(this::handleRemoteReturnedAlbum, this::handleRemoteAlbumError, () -> view.stopLoadingIndicator());
+					disposeBag.add(disposable);
+
+				}
+
 				view.showTracks(tracks);
 		}
-
 
 	}
 
 	private void handleRemoteError(Throwable throwable) {
+
+		String message = throwable.getMessage();
+	}
+
+	private void handleRemoteReturnedAlbum(AlbumResponse albumResponse) {
+
+		int code = albumResponse.getMessage().getHeader().getStatusCode();
+
+		switch (code){
+			case 200:
+				AlbumResponse.Album album = albumResponse.getMessage().getBody().getAlbum();
+				for(int i = 0; i < tracks.size(); i++) {
+					if(tracks.get(i).getTrack().getAlbumId() == album.getAlbumId()){
+						tracks.get(i).getTrack().setAlbumImageUrl(album.getAlbumCoverart100x100());
+					}
+				}
+
+				view.showTracks(tracks);
+		}
+
+	}
+
+	private void handleRemoteAlbumError(Throwable throwable) {
 
 		String message = throwable.getMessage();
 	}

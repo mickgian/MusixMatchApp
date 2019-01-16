@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6f61209130a6d2af6891fcb30777dfac",
+    "identityHash": "23483b37a0598953a21c31fbf3600ea6",
     "entities": [
       {
         "tableName": "trackList",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackList_trackId` INTEGER NOT NULL, `trackList_trackName` TEXT NOT NULL, `trackList_trackRating` INTEGER NOT NULL, `trackList_commontrackId` INTEGER NOT NULL, `trackList_instrumental` INTEGER NOT NULL, `trackList_explicit` INTEGER NOT NULL, `trackList_hasLyrics` INTEGER NOT NULL, `trackList_hasSubtitles` INTEGER NOT NULL, `trackList_hasRichsync` INTEGER NOT NULL, `trackList_numFavourite` INTEGER NOT NULL, `trackList_albumId` INTEGER NOT NULL, `trackList_albumName` TEXT NOT NULL, `trackList_artistId` INTEGER NOT NULL, `trackList_artistName` TEXT NOT NULL, `trackList_trackShareUrl` TEXT NOT NULL, `trackList_trackEditUrl` TEXT NOT NULL, `trackList_restricted` INTEGER NOT NULL, `trackList_updatedTime` TEXT NOT NULL, PRIMARY KEY(`trackList_trackId`, `trackList_trackName`, `trackList_trackRating`, `trackList_commontrackId`, `trackList_instrumental`, `trackList_explicit`, `trackList_hasLyrics`, `trackList_hasSubtitles`, `trackList_hasRichsync`, `trackList_numFavourite`, `trackList_albumId`, `trackList_albumName`, `trackList_artistId`, `trackList_artistName`, `trackList_trackShareUrl`, `trackList_trackEditUrl`, `trackList_restricted`, `trackList_updatedTime`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackList_trackId` INTEGER NOT NULL, `trackList_trackName` TEXT NOT NULL, `trackList_trackRating` INTEGER NOT NULL, `trackList_commontrackId` INTEGER NOT NULL, `trackList_instrumental` INTEGER NOT NULL, `trackList_explicit` INTEGER NOT NULL, `trackList_hasLyrics` INTEGER NOT NULL, `trackList_hasSubtitles` INTEGER NOT NULL, `trackList_hasRichsync` INTEGER NOT NULL, `trackList_numFavourite` INTEGER NOT NULL, `trackList_albumId` INTEGER NOT NULL, `trackList_albumName` TEXT NOT NULL, `trackList_artistId` INTEGER NOT NULL, `trackList_artistName` TEXT NOT NULL, `trackList_trackShareUrl` TEXT NOT NULL, `trackList_trackEditUrl` TEXT NOT NULL, `trackList_restricted` INTEGER NOT NULL, `trackList_updatedTime` TEXT NOT NULL, `trackList_albumImageUrl` TEXT NOT NULL, PRIMARY KEY(`trackList_trackId`, `trackList_trackName`, `trackList_trackRating`, `trackList_commontrackId`, `trackList_instrumental`, `trackList_explicit`, `trackList_hasLyrics`, `trackList_hasSubtitles`, `trackList_hasRichsync`, `trackList_numFavourite`, `trackList_albumId`, `trackList_albumName`, `trackList_artistId`, `trackList_artistName`, `trackList_trackShareUrl`, `trackList_trackEditUrl`, `trackList_restricted`, `trackList_updatedTime`, `trackList_albumImageUrl`))",
         "fields": [
           {
             "fieldPath": "track.trackId",
@@ -115,6 +115,12 @@
             "columnName": "trackList_updatedTime",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "track.albumImageUrl",
+            "columnName": "trackList_albumImageUrl",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -136,7 +142,8 @@
             "trackList_trackShareUrl",
             "trackList_trackEditUrl",
             "trackList_restricted",
-            "trackList_updatedTime"
+            "trackList_updatedTime",
+            "trackList_albumImageUrl"
           ],
           "autoGenerate": false
         },
@@ -147,7 +154,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6f61209130a6d2af6891fcb30777dfac\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"23483b37a0598953a21c31fbf3600ea6\")"
     ]
   }
 }

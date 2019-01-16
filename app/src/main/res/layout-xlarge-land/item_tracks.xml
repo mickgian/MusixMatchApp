@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/track_album_image_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
@@ -55,6 +55,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
             android:lines="2"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -63,7 +64,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/track_label_title_text_view"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"/>
+            />
 
         <TextView
             android:id="@+id/track_label_artist_text_view"
@@ -86,6 +87,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
             android:lines="2"
             android:textColor="@android:color/black"
             android:textSize="16sp"

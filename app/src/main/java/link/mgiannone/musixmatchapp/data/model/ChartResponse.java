@@ -184,9 +184,8 @@ public class ChartResponse {
 		@NonNull
 		private String updatedTime;
 
-//		@SerializedName("primary_genres")
-//		@Expose
-//		private PrimaryGenres primaryGenres;
+		@NonNull
+		private String albumImageUrl;
 
 		public int getTrackId() {
 			return trackId;
@@ -203,14 +202,6 @@ public class ChartResponse {
 		public void setTrackName(String trackName) {
 			this.trackName = trackName;
 		}
-
-//		public List<Object> getTrackNameTranslationList() {
-//			return trackNameTranslationList;
-//		}
-//
-//		public void setTrackNameTranslationList(List<Object> trackNameTranslationList) {
-//			this.trackNameTranslationList = trackNameTranslationList;
-//		}
 
 		public int getTrackRating() {
 			return trackRating;
@@ -340,6 +331,13 @@ public class ChartResponse {
 			this.updatedTime = updatedTime;
 		}
 
-	}
+		public String getAlbumImageUrl() {
+			return albumImageUrl;
+		}
+
+		public void setAlbumImageUrl(String albumImageUrl) {
+			this.albumImageUrl = albumImageUrl;
+		}
+}
 
 }

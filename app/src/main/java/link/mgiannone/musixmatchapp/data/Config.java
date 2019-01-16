@@ -10,7 +10,7 @@ public class Config {
 
   public static final String PARAMETER_CHART_NAME = "top";
   public static final int PARAMETER_PAGE = 1;
-  public static final int PARAMETER_PAGE_SIZE = 3;
+  public static final int PARAMETER_PAGE_SIZE = 10;
   public static final String PARAMETER_COUNTRY = "ie"; //Ireland
   public static final int PARAMETER_HAS_LYRICS = 1;
 }

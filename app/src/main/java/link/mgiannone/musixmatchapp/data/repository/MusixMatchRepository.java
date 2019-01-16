@@ -1,5 +1,7 @@
 package link.mgiannone.musixmatchapp.data.repository;
 
+import android.os.AsyncTask;
+
 import androidx.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import link.mgiannone.musixmatchapp.data.model.AlbumResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
 
@@ -54,6 +57,17 @@ public class MusixMatchRepository implements ChartDataSource {
 		return remoteChartDataSource.loadChartResponse(chartName, page, pageSize, country, hasLyrics, apiKey);
 	}
 
+	public Observable<AlbumResponse> loadAlbum(int albumId, String musixMatchApiKey) {
+		return remoteAlbumDataSource.loadAlbumResponse(albumId, musixMatchApiKey);
+	}
+
+	public void clearCacheAndLocalDB() {
+		// Clear cache
+		trackCaches.clear();
+		// Clear data in local storage
+		new DeleteAllTracksAsyncTask(localChartDataSource).execute();
+	}
+
 //	/**
 //	 * Loads a question by its question id.
 //	 *
@@ -78,6 +92,22 @@ public class MusixMatchRepository implements ChartDataSource {
 	@Override public void clearTracksData() {
 		trackCaches.clear();
 		localChartDataSource.clearTracksData();
+	}
+
+
+
+	private static class DeleteAllTracksAsyncTask extends AsyncTask<Void, Void, Void> {
+		private ChartDataSource asyncTaskLocalChartDataSource;
+
+		DeleteAllTracksAsyncTask(ChartDataSource localChartDataSource) {
+			asyncTaskLocalChartDataSource = localChartDataSource;
+		}
+
+		@Override
+		protected Void doInBackground(Void... voids) {
+			asyncTaskLocalChartDataSource.clearTracksData();
+			return null;
+		}
 	}
 }
 

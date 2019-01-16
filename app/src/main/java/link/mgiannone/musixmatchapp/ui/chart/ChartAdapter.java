@@ -63,7 +63,7 @@ class ChartAdapter extends BaseRecyclerViewAdapter<ChartAdapter.TrackViewHolder>
 		TrackList trackList = this.trackList.get(i);
 
 		Glide.with(vh.trackAlbumImageView)
-				.load(ResourcesCompat.getDrawable(context.getResources(), R.drawable.placeholder, null))
+				.load(trackList.getTrack().getAlbumImageUrl())
 				.into(vh.trackAlbumImageView);
 		vh.trackTitleTextView.setText(trackList.getTrack().getTrackName());
 		vh.trackArtistTextView.setText(trackList.getTrack().getArtistName());
