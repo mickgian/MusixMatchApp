@@ -12,8 +12,9 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
+import link.mgiannone.musixmatchapp.data.Config;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
-import link.mgiannone.musixmatchapp.data.model.ChartResponse.Track;
+import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
 import link.mgiannone.musixmatchapp.data.repository.MusixMatchRepository;
 import link.mgiannone.musixmatchapp.util.schedulers.RunOn;
 
@@ -67,7 +68,13 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 
 		if(onlineRequired) {
 			// Load from remote and populate into view
-			Disposable disposable = repository.loadChartResponse()
+			Disposable disposable = repository.loadChartResponse(
+					Config.PARAMETER_CHART_NAME,
+					Config.PARAMETER_PAGE,
+					Config.PARAMETER_PAGE_SIZE,
+					Config.PARAMETER_COUNTRY,
+					Config.PARAMETER_HAS_LYRICS,
+					Config.MUSIX_MATCH_API_KEY)
 					.subscribeOn(ioScheduler)
 					.observeOn(uiScheduler)
 					.subscribe(this::handleRemoteReturnedData, this::handleRemoteError, () -> view.stopLoadingIndicator());
@@ -86,8 +93,16 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 
 	private void handleRemoteReturnedData(ChartResponse chartResponse) {
 
-		List<Track> tracks = chartResponse.getBody().getTrack();
-		view.showTracks(tracks);
+		int code = chartResponse.getMessage().getHeader().getStatusCode();
+
+		switch (code){
+			case 200:
+				List<TrackList> tracks = chartResponse.getMessage().getBody().getTrackList();
+				TrackList trackList = tracks.get(0);
+				view.showTracks(tracks);
+		}
+
+
 	}
 
 	private void handleRemoteError(Throwable throwable) {
@@ -98,12 +113,14 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 	/**
 	 * Updates view after loading data from local source is completed successfully.
 	 */
-	private void handleLocalReturnedData(List<Track> list) {
+	private void handleLocalReturnedData(List<TrackList> list) {
 		view.stopLoadingIndicator();
 		if (list != null && !list.isEmpty()) {
 			view.showTracks(list);
 		} else {
-			view.showNoDataMessage();
+//			view.showNoDataMessage();
+			loadTracks(true);
+
 		}
 	}
 
@@ -114,7 +131,8 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 //		view.stopLoadingIndicator();
 //		view.showErrorMessage(error.getLocalizedMessage());
 		String message = throwable.getMessage();
-		repository.loadChartResponse();
+		loadTracks(true);
+
 	}
 
 	@Override public void getTrack(long trackId) {

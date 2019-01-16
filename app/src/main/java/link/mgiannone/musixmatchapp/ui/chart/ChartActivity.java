@@ -23,19 +23,19 @@ import link.mgiannone.musixmatchapp.R;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.Track;
 import link.mgiannone.musixmatchapp.ui.base.BaseActivity;
 
+import static link.mgiannone.musixmatchapp.data.model.ChartResponse.*;
+
 public class ChartActivity extends BaseActivity implements ChartContract.View {
 
 	private static final String TAG = ChartActivity.class.getSimpleName();
 
-	@BindView(R.id.recycler_repos)
+	@BindView(R.id.tracks_recycler_view)
 	RecyclerView repoRecyclerView;
-	@BindView(R.id.refreshRepos)
+	@BindView(R.id.refreshTracks)
 	SwipeRefreshLayout refreshLayout;
-	@BindView(R.id.repo_owner_text_view)
-	TextView repoOwnerTextView;
-	@BindView(R.id.repo_text_notification)
+	@BindView(R.id.tracks_text_notification)
 	TextView notificationText;
-	@BindView(R.id.loadReposProgressBar)
+	@BindView(R.id.loadTracksProgressBar)
 	ProgressBar loadReposProgressBar;
 
 	private ChartAdapter adapter;
@@ -92,32 +92,7 @@ public class ChartActivity extends BaseActivity implements ChartContract.View {
 		notificationText.setVisibility(View.GONE);
 	}
 
-//	@Override public boolean onCreateOptionsMenu(Menu menu) {
-//		getMenuInflater().inflate(R.menu.repositories, menu);
-//
-//		// Setup search widget in action bar
-//		searchView = (SearchView) menu.findItem(R.id.repos_action_search).getActionView();
-//		searchView.setQueryHint(getString(R.string.repo_search_hint));
-//		searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//
-//		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//			@Override public boolean onQueryTextSubmit(String query) {
-//				owner = query;
-//				presenter.checkRepoPerUser(query); //starting first call
-//				searchView.clearFocus();
-//				loadReposProgressBar.setVisibility(View.VISIBLE);
-//				return true;
-//			}
-//
-//			@Override public boolean onQueryTextChange(String newText) {
-//				return false;
-//			}
-//		});
-//
-//		return true;
-//	}
-
-	@Override public void showTracks(List<Track> tracks) {
+	@Override public void showTracks(List<TrackList> tracks) {
 		refreshLayout.setVisibility(View.VISIBLE);
 		notificationText.setVisibility(View.GONE);
 		adapter.replaceData(tracks);
@@ -142,10 +117,6 @@ public class ChartActivity extends BaseActivity implements ChartContract.View {
 		}
 	}
 
-	@Override public void showEmptySearchResult() {
-		showNotification(getString(R.string.msg_empty_repo_search_result));
-	}
-
 	private void showNotification(String message) {
 		loadReposProgressBar.setVisibility(View.GONE);
 		refreshLayout.setVisibility(View.GONE);
@@ -156,7 +127,6 @@ public class ChartActivity extends BaseActivity implements ChartContract.View {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putString("owner", repoOwnerTextView.getText().toString());
 		outState.putString("notification_text", notificationText.getText().toString());
 
 		// call superclass to save any view hierarchy

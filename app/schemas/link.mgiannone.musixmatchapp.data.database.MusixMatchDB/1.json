@@ -2,22 +2,141 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fe61139be247133fd3c063bb21f441a6",
+    "identityHash": "6f61209130a6d2af6891fcb30777dfac",
     "entities": [
       {
-        "tableName": "tracks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`track` TEXT NOT NULL, PRIMARY KEY(`track`))",
+        "tableName": "trackList",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trackList_trackId` INTEGER NOT NULL, `trackList_trackName` TEXT NOT NULL, `trackList_trackRating` INTEGER NOT NULL, `trackList_commontrackId` INTEGER NOT NULL, `trackList_instrumental` INTEGER NOT NULL, `trackList_explicit` INTEGER NOT NULL, `trackList_hasLyrics` INTEGER NOT NULL, `trackList_hasSubtitles` INTEGER NOT NULL, `trackList_hasRichsync` INTEGER NOT NULL, `trackList_numFavourite` INTEGER NOT NULL, `trackList_albumId` INTEGER NOT NULL, `trackList_albumName` TEXT NOT NULL, `trackList_artistId` INTEGER NOT NULL, `trackList_artistName` TEXT NOT NULL, `trackList_trackShareUrl` TEXT NOT NULL, `trackList_trackEditUrl` TEXT NOT NULL, `trackList_restricted` INTEGER NOT NULL, `trackList_updatedTime` TEXT NOT NULL, PRIMARY KEY(`trackList_trackId`, `trackList_trackName`, `trackList_trackRating`, `trackList_commontrackId`, `trackList_instrumental`, `trackList_explicit`, `trackList_hasLyrics`, `trackList_hasSubtitles`, `trackList_hasRichsync`, `trackList_numFavourite`, `trackList_albumId`, `trackList_albumName`, `trackList_artistId`, `trackList_artistName`, `trackList_trackShareUrl`, `trackList_trackEditUrl`, `trackList_restricted`, `trackList_updatedTime`))",
         "fields": [
           {
-            "fieldPath": "track",
-            "columnName": "track",
+            "fieldPath": "track.trackId",
+            "columnName": "trackList_trackId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.trackName",
+            "columnName": "trackList_trackName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.trackRating",
+            "columnName": "trackList_trackRating",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.commontrackId",
+            "columnName": "trackList_commontrackId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.instrumental",
+            "columnName": "trackList_instrumental",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.explicit",
+            "columnName": "trackList_explicit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.hasLyrics",
+            "columnName": "trackList_hasLyrics",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.hasSubtitles",
+            "columnName": "trackList_hasSubtitles",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.hasRichsync",
+            "columnName": "trackList_hasRichsync",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.numFavourite",
+            "columnName": "trackList_numFavourite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.albumId",
+            "columnName": "trackList_albumId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.albumName",
+            "columnName": "trackList_albumName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.artistId",
+            "columnName": "trackList_artistId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.artistName",
+            "columnName": "trackList_artistName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.trackShareUrl",
+            "columnName": "trackList_trackShareUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.trackEditUrl",
+            "columnName": "trackList_trackEditUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.restricted",
+            "columnName": "trackList_restricted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track.updatedTime",
+            "columnName": "trackList_updatedTime",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "track"
+            "trackList_trackId",
+            "trackList_trackName",
+            "trackList_trackRating",
+            "trackList_commontrackId",
+            "trackList_instrumental",
+            "trackList_explicit",
+            "trackList_hasLyrics",
+            "trackList_hasSubtitles",
+            "trackList_hasRichsync",
+            "trackList_numFavourite",
+            "trackList_albumId",
+            "trackList_albumName",
+            "trackList_artistId",
+            "trackList_artistName",
+            "trackList_trackShareUrl",
+            "trackList_trackEditUrl",
+            "trackList_restricted",
+            "trackList_updatedTime"
           ],
           "autoGenerate": false
         },
@@ -28,7 +147,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fe61139be247133fd3c063bb21f441a6\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6f61209130a6d2af6891fcb30777dfac\")"
     ]
   }
 }

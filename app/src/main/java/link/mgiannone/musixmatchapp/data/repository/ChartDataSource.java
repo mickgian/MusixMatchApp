@@ -8,11 +8,11 @@ import static link.mgiannone.musixmatchapp.data.model.ChartResponse.*;
 
 public interface ChartDataSource {
 
-	Observable<ChartResponse> loadChartResponse();
+	Observable<ChartResponse> loadChartResponse(String chartName, int page, int pageSize, String country, int hasLyrics, String apiKey);
 
-	Observable<List<Track>> getTracks();
+	Observable<List<TrackList>> getTracks();
 
-	void addTrack(Track track);
+	void addTrack(TrackList trackList);
 
 	void clearTracksData();
 

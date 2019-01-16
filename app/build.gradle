@@ -115,9 +115,6 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
 
-    //Boom menu
-    implementation 'com.nightonke:boommenu:2.1.1'
-
     //Apache common lang
     implementation 'org.apache.commons:commons-lang3:3.6'
 }

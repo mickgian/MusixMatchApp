@@ -8,14 +8,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.CompositeDisposable;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
-import link.mgiannone.musixmatchapp.data.model.ChartResponse.Track;
-import link.mgiannone.musixmatchapp.util.schedulers.RunOn;
-
-import static link.mgiannone.musixmatchapp.util.schedulers.SchedulerType.IO;
-import static link.mgiannone.musixmatchapp.util.schedulers.SchedulerType.UI;
+import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
 
 public class MusixMatchRepository implements ChartDataSource {
 
@@ -25,7 +19,7 @@ public class MusixMatchRepository implements ChartDataSource {
 	private ChartDataSource localChartDataSource;
 
 	@VisibleForTesting
-	List<Track> trackCaches;
+	List<TrackList> trackCaches;
 
 	@Inject
 	public MusixMatchRepository(@Local ChartDataSource localChartDataSource,
@@ -36,7 +30,7 @@ public class MusixMatchRepository implements ChartDataSource {
 		trackCaches = new ArrayList<>();
 	}
 
-	public Observable<List<Track>> loadLocalTracks() {
+	public Observable<List<TrackList>> loadLocalTracks() {
 
 		if (trackCaches.size() > 0) {
 			// if cache is available, return it immediately
@@ -52,11 +46,9 @@ public class MusixMatchRepository implements ChartDataSource {
 		}
 	}
 
-
-
 	@Override
-	public Observable<ChartResponse> loadChartResponse() {
-		return remoteChartDataSource.loadChartResponse();
+	public Observable<ChartResponse> loadChartResponse(String chartName, int page, int pageSize, String country, int hasLyrics, String apiKey) {
+		return remoteChartDataSource.loadChartResponse(chartName, page, pageSize, country, hasLyrics, apiKey);
 	}
 
 //	/**
@@ -71,12 +63,12 @@ public class MusixMatchRepository implements ChartDataSource {
 
 
 	@Override
-	public Observable<List<Track>> getTracks() {
+	public Observable<List<TrackList>> getTracks() {
 		return null;
 	}
 
-	public void addTrack(Track track) {
-		//Currently, we do not need this.
+	@Override
+	public void addTrack(TrackList trackList) {
 		throw new UnsupportedOperationException("Unsupported operation");
 	}
 

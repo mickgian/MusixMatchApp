@@ -15,10 +15,10 @@ import static link.mgiannone.musixmatchapp.data.model.ChartResponse.*;
 @Dao
 public interface ChartDao {
 	@Query("SELECT * FROM " + Config.MUSIX_MATCH_TRACKS_TABLE_NAME)
-	Observable<List<Track>> getAllTracks();
+	Observable<List<TrackList>> getAllTracks();
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	void insert(Track track);
+	void insert(TrackList tracklist);
 
 	@Query("DELETE FROM " + Config.MUSIX_MATCH_TRACKS_TABLE_NAME)
 	void deleteAll();

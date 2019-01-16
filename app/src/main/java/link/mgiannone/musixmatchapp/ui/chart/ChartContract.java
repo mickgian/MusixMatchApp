@@ -3,11 +3,12 @@ package link.mgiannone.musixmatchapp.ui.chart;
 import java.util.List;
 
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.Track;
+import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
 import link.mgiannone.musixmatchapp.ui.base.BasePresenter;
 
 public interface ChartContract {
 	interface View {
-		void showTracks(List<Track> tracks);
+		void showTracks(List<TrackList> tracks);
 
 		void clearTracks();
 
@@ -18,8 +19,6 @@ public interface ChartContract {
 		void showTrackDetail(Track track);
 
 		void stopLoadingIndicator();
-
-		void showEmptySearchResult();
 
 		void showProgressBarIfHidden();
 	}

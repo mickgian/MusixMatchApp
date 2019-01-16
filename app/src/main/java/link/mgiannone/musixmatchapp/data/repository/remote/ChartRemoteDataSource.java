@@ -21,17 +21,17 @@ public class ChartRemoteDataSource implements ChartDataSource {
 	}
 
 	@Override
-	public Observable<ChartResponse> loadChartResponse() {
-		return chartService.getIrishChart();
+	public Observable<ChartResponse> loadChartResponse(String chartName, int page, int pageSize, String country, int hasLyrics, String apiKey) {
+		return chartService.getIrishChart(chartName, page, pageSize, country, hasLyrics, apiKey);
 	}
 
 	@Override
-	public Observable<List<Track>> getTracks() {
+	public Observable<List<TrackList>> getTracks() {
 		throw new UnsupportedOperationException("Unsupported operation");
 	}
 
 	@Override
-	public void addTrack(Track track) {
+	public void addTrack(TrackList trackList) {
 		throw new UnsupportedOperationException("Unsupported operation");
 	}
 

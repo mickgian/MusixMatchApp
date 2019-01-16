@@ -22,18 +22,18 @@ public class ChartLocalDataSource implements ChartDataSource {
 
 
 	@Override
-	public Observable<ChartResponse> loadChartResponse() {
+	public Observable<ChartResponse> loadChartResponse(String chartName, int page, int pageSize, String country, int hasLyrics, String apiKey) {
 		return null;
 	}
 
 	@Override
-	public Observable<List<Track>> getTracks() {
+	public Observable<List<TrackList>> getTracks() {
 		return chartDao.getAllTracks();
 	}
 
 	@Override
-	public void addTrack(Track track) {
-		chartDao.insert(track);
+	public void addTrack(TrackList trackList) {
+		chartDao.insert(trackList);
 	}
 
 	@Override

@@ -2,16 +2,12 @@
 
 package link.mgiannone.musixmatchapp.data.model;
 
-
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import link.mgiannone.musixmatchapp.data.Config;
@@ -19,167 +15,331 @@ import link.mgiannone.musixmatchapp.data.Config;
 
 public class ChartResponse {
 
-	@SerializedName("header")
+	@SerializedName("message")
 	@Expose
-	private Header header;
+	private Message message;
 
-	@SerializedName("body")
-	@Expose
-	private Body body;
-
-
-	public Header getHeader() {
-		return header;
+	public Message getMessage() {
+		return message;
 	}
 
-	public void setHeader(Header header) {
-		this.header = header;
-	}
+	public static class Message {
 
-	public Body getBody() {
-		return body;
-	}
+		@SerializedName("header")
+		@Expose
+		private Header header;
+		@SerializedName("body")
+		@Expose
+		private Body body;
 
-	public void setBody(Body body) {
-		this.body = body;
-	}
-
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(body).append(header).toHashCode();
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
+		public Header getHeader() {
+			return header;
 		}
-		if ((other instanceof ChartResponse) == false) {
-			return false;
+
+		public Body getBody() {
+			return body;
 		}
-		ChartResponse rhs = ((ChartResponse) other);
-		return new EqualsBuilder().append(body, rhs.body).append(header, rhs.header).isEquals();
+
 	}
-
-
 
 	public static class Header {
 
 		@SerializedName("status_code")
 		@Expose
 		private int statusCode;
+		@SerializedName("execute_time")
+		@Expose
+		private float executeTime;
 
 		public int getStatusCode() {
 			return statusCode;
 		}
 
-		public void setStatusCode(int statusCode) {
-			this.statusCode = statusCode;
+		public float getExecuteTime() {
+			return executeTime;
 		}
-
 	}
 
 	public static class Body {
 
 		@SerializedName("track_list")
 		@Expose
-		private List<Track> track = null;
+		private List<TrackList> trackList = null;
 
-		public List<Track> getTrack() {
-			return track;
-		}
-
-		public void setTrack(List<Track> track) {
-			this.track = track;
-		}
-
-		@Override
-		public int hashCode() {
-			return new HashCodeBuilder().append(track).toHashCode();
-		}
-
-		@Override
-		public boolean equals(Object other) {
-			if (other == this) {
-				return true;
-			}
-			if ((other instanceof Body) == false) {
-				return false;
-			}
-			Body rhs = ((Body) other);
-			return new EqualsBuilder().append(track, rhs.track).isEquals();
-		}
-
-	}
-
-
-	public static class Chart {
-
-		@SerializedName("message")
-		@Expose
-		private ChartResponse message;
-
-		public ChartResponse getMessage() {
-			return message;
-		}
-
-		public void setMessage(ChartResponse message) {
-			this.message = message;
-		}
-
-		@Override
-		public int hashCode() {
-			return new HashCodeBuilder().append(message).toHashCode();
-		}
-
-		@Override
-		public boolean equals(Object other) {
-			if (other == this) {
-				return true;
-			}
-			if ((other instanceof Chart) == false) {
-				return false;
-			}
-			Chart rhs = ((Chart) other);
-			return new EqualsBuilder().append(message, rhs.message).isEquals();
+		public List<TrackList> getTrackList() {
+			return trackList;
 		}
 
 	}
 
 	@Entity(tableName = Config.MUSIX_MATCH_TRACKS_TABLE_NAME)
-	public static class Track {
+	public static class TrackList {
 
 		@SerializedName("track")
 		@Expose
+		@Embedded(prefix = "trackList_")
 		@PrimaryKey
 		@NonNull
-		private String track;
+		private Track track;
 
-		public String getTrack() {
+		public Track getTrack() {
 			return track;
 		}
 
-		public void setTrack(String track) {
+		public void setTrack(@NonNull Track track) {
 			this.track = track;
 		}
+	}
 
-		@Override
-		public int hashCode() {
-			return new HashCodeBuilder().append(track).toHashCode();
+//	@Entity(tableName = Config.MUSIX_MATCH_TRACKS_TABLE_NAME)
+	public static class Track {
+
+		@SerializedName("track_id")
+		@Expose
+		@NonNull
+		private int trackId;
+
+		@SerializedName("track_name")
+		@Expose
+		@NonNull
+		private String trackName;
+
+		@SerializedName("track_rating")
+		@Expose
+		@NonNull
+		private int trackRating;
+
+		@SerializedName("commontrack_id")
+		@Expose
+		@NonNull
+		private int commontrackId;
+
+		@SerializedName("instrumental")
+		@Expose
+		@NonNull
+		private int instrumental;
+
+		@SerializedName("explicit")
+		@Expose
+		@NonNull
+		private int explicit;
+
+		@SerializedName("has_lyrics")
+		@Expose
+		@NonNull
+		private int hasLyrics;
+
+		@SerializedName("has_subtitles")
+		@Expose
+		@NonNull
+		private int hasSubtitles;
+
+		@SerializedName("has_richsync")
+		@Expose
+		@NonNull
+		private int hasRichsync;
+
+		@SerializedName("num_favourite")
+		@Expose
+		@NonNull
+		private int numFavourite;
+
+		@SerializedName("album_id")
+		@Expose
+		@NonNull
+		private int albumId;
+
+		@SerializedName("album_name")
+		@Expose
+		@NonNull
+		private String albumName;
+
+		@SerializedName("artist_id")
+		@Expose
+		@NonNull
+		private int artistId;
+
+		@SerializedName("artist_name")
+		@Expose
+		@NonNull
+		private String artistName;
+
+		@SerializedName("track_share_url")
+		@Expose
+		@NonNull
+		private String trackShareUrl;
+
+		@SerializedName("track_edit_url")
+		@Expose
+		@NonNull
+		private String trackEditUrl;
+
+		@SerializedName("restricted")
+		@Expose
+		@NonNull
+		private int restricted;
+
+		@SerializedName("updated_time")
+		@Expose
+		@NonNull
+		private String updatedTime;
+
+//		@SerializedName("primary_genres")
+//		@Expose
+//		private PrimaryGenres primaryGenres;
+
+		public int getTrackId() {
+			return trackId;
 		}
 
-		@Override
-		public boolean equals(Object other) {
-			if (other == this) {
-				return true;
-			}
-			if ((other instanceof Track) == false) {
-				return false;
-			}
-			Track rhs = ((Track) other);
-			return new EqualsBuilder().append(track, rhs.track).isEquals();
+		public void setTrackId(int trackId) {
+			this.trackId = trackId;
+		}
+
+		public String getTrackName() {
+			return trackName;
+		}
+
+		public void setTrackName(String trackName) {
+			this.trackName = trackName;
+		}
+
+//		public List<Object> getTrackNameTranslationList() {
+//			return trackNameTranslationList;
+//		}
+//
+//		public void setTrackNameTranslationList(List<Object> trackNameTranslationList) {
+//			this.trackNameTranslationList = trackNameTranslationList;
+//		}
+
+		public int getTrackRating() {
+			return trackRating;
+		}
+
+		public void setTrackRating(int trackRating) {
+			this.trackRating = trackRating;
+		}
+
+		public int getCommontrackId() {
+			return commontrackId;
+		}
+
+		public void setCommontrackId(int commontrackId) {
+			this.commontrackId = commontrackId;
+		}
+
+		public int getInstrumental() {
+			return instrumental;
+		}
+
+		public void setInstrumental(int instrumental) {
+			this.instrumental = instrumental;
+		}
+
+		public int getExplicit() {
+			return explicit;
+		}
+
+		public void setExplicit(int explicit) {
+			this.explicit = explicit;
+		}
+
+		public int getHasLyrics() {
+			return hasLyrics;
+		}
+
+		public void setHasLyrics(int hasLyrics) {
+			this.hasLyrics = hasLyrics;
+		}
+
+		public int getHasSubtitles() {
+			return hasSubtitles;
+		}
+
+		public void setHasSubtitles(int hasSubtitles) {
+			this.hasSubtitles = hasSubtitles;
+		}
+
+		public int getHasRichsync() {
+			return hasRichsync;
+		}
+
+		public void setHasRichsync(int hasRichsync) {
+			this.hasRichsync = hasRichsync;
+		}
+
+		public int getNumFavourite() {
+			return numFavourite;
+		}
+
+		public void setNumFavourite(int numFavourite) {
+			this.numFavourite = numFavourite;
+		}
+
+		public int getAlbumId() {
+			return albumId;
+		}
+
+		public void setAlbumId(int albumId) {
+			this.albumId = albumId;
+		}
+
+		public String getAlbumName() {
+			return albumName;
+		}
+
+		public void setAlbumName(String albumName) {
+			this.albumName = albumName;
+		}
+
+		public int getArtistId() {
+			return artistId;
+		}
+
+		public void setArtistId(int artistId) {
+			this.artistId = artistId;
+		}
+
+		public String getArtistName() {
+			return artistName;
+		}
+
+		public void setArtistName(String artistName) {
+			this.artistName = artistName;
+		}
+
+		public String getTrackShareUrl() {
+			return trackShareUrl;
+		}
+
+		public void setTrackShareUrl(String trackShareUrl) {
+			this.trackShareUrl = trackShareUrl;
+		}
+
+		public String getTrackEditUrl() {
+			return trackEditUrl;
+		}
+
+		public void setTrackEditUrl(String trackEditUrl) {
+			this.trackEditUrl = trackEditUrl;
+		}
+
+		public int getRestricted() {
+			return restricted;
+		}
+
+		public void setRestricted(int restricted) {
+			this.restricted = restricted;
+		}
+
+		public String getUpdatedTime() {
+			return updatedTime;
+		}
+
+		public void setUpdatedTime(String updatedTime) {
+			this.updatedTime = updatedTime;
 		}
 
 	}
+
 }
