@@ -16,6 +16,8 @@ import link.mgiannone.musixmatchapp.data.Config;
 import link.mgiannone.musixmatchapp.data.model.AlbumResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
+import link.mgiannone.musixmatchapp.data.model.LyricsResponse;
+import link.mgiannone.musixmatchapp.data.model.LyricsResponse.Lyrics;
 import link.mgiannone.musixmatchapp.data.repository.MusixMatchRepository;
 import link.mgiannone.musixmatchapp.util.schedulers.RunOn;
 
@@ -41,6 +43,11 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 
 	private List<TrackList> tracks;
 
+	private String selectedTrackName;
+	private String selectedArtistName;
+	private String selectedImageCoverUrl;
+
+
 	@Inject public ChartPresenter(MusixMatchRepository repository, ChartContract.View view,
 								  @RunOn(IO) Scheduler ioScheduler, @RunOn(UI) Scheduler uiScheduler) {
 		this.repository = repository;
@@ -56,11 +63,13 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 		disposeBag = new CompositeDisposable();
 	}
 
-	@Override @OnLifecycleEvent(Lifecycle.Event.ON_RESUME) public void onAttach() {
+	@Override @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+	public void onAttach() {
 		loadTracks(false);
 	}
 
-	@Override @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE) public void onDetach() {
+	@Override @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+	public void onDetach() {
 		// Clean up any no-longer-use resources here
 		disposeBag.clear();
 	}
@@ -70,6 +79,9 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 		view.clearTracks();
 
 		if(onlineRequired) {
+
+			view.showProgressBarIfHidden();
+
 			// Load from remote and populate into view
 			Disposable disposable = repository.loadChartResponse(
 					Config.PARAMETER_CHART_NAME,
@@ -198,9 +210,7 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 		if (list != null && !list.isEmpty()) {
 			view.showTracks(list);
 		} else {
-//			view.showNoDataMessage();
 			loadTracks(true);
-
 		}
 	}
 
@@ -208,19 +218,63 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 	 * load data from remote source if there is an error after loading data from local source.
 	 */
 	private void handleLocalError(Throwable throwable) {
-//		view.stopLoadingIndicator();
-//		view.showErrorMessage(error.getLocalizedMessage());
-		String message = throwable.getMessage();
 		loadTracks(true);
+	}
+
+	@Override public void getTrack(int trackId, String trackName, String trackArtist, String trackImageCoverUrl) {
+
+		selectedTrackName = trackName;
+		selectedArtistName = trackArtist;
+		selectedImageCoverUrl = trackImageCoverUrl;
+
+		Disposable disposable = repository.loadLyrics(trackId, Config.MUSIX_MATCH_API_KEY)
+				.filter(track -> track != null)
+				.subscribeOn(ioScheduler)
+				.observeOn(uiScheduler)
+				.subscribe(this::handleRemoteReturnedLyrics, this::handleRemoteLyricsError);
+		disposeBag.add(disposable);
+	}
+
+	private void handleRemoteReturnedLyrics(LyricsResponse lyricsResponse) {
+
+		int code = lyricsResponse.getMessage().getHeader().getStatusCode();
+
+		switch (code){
+			case 200:
+				Lyrics lyrics = lyricsResponse.getMessage().getBody().getLyrics();
+
+				view.showTrackLyrics(lyrics, selectedTrackName, selectedArtistName, selectedImageCoverUrl);
+
+				break;
+			case 400:
+				view.showBadSyntaxError();
+			case 401:
+				view.showInvalidOrMissingApiError();
+				break;
+			case 402:
+				view.showLimitReachedError();
+				break;
+			case 403:
+				view.showNotAuthorizedError();
+				break;
+			case 404:
+				view.showResourceNotFoundError();
+				break;
+			case 405:
+				view.showRequestedMethodNotFound();
+				break;
+			case 500:
+				view.showSomethingWentWrongError();
+				break;
+			case 503:
+				view.showSystemBusyError();
+				break;
+		}
 
 	}
 
-	@Override public void getTrack(long trackId) {
-//		Disposable disposable = repository.loadLocalTracks(trackId)
-//				.filter(track -> track != null)
-//				.subscribeOn(ioScheduler)
-//				.observeOn(uiScheduler)
-//				.subscribe(track -> view.showTrackDetail(track));
-//		disposeBag.add(disposable);
+	private void handleRemoteLyricsError(Throwable throwable) {
+		view.showErrorMessage(throwable.getLocalizedMessage());
 	}
+
 }

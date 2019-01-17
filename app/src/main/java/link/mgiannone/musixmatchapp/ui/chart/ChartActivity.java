@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -21,7 +22,9 @@ import butterknife.ButterKnife;
 
 import link.mgiannone.musixmatchapp.R;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.Track;
+import link.mgiannone.musixmatchapp.data.model.LyricsResponse.Lyrics;
 import link.mgiannone.musixmatchapp.ui.base.BaseActivity;
+import link.mgiannone.musixmatchapp.ui.lyrics.LyricsActivity;
 
 import static link.mgiannone.musixmatchapp.data.model.ChartResponse.*;
 
@@ -85,6 +88,15 @@ public class ChartActivity extends BaseActivity implements ChartContract.View {
 		repoRecyclerView.setLayoutManager(layoutManager);
 		repoRecyclerView.setAdapter(adapter);
 		repoRecyclerView.setItemAnimator(new DefaultItemAnimator());
+		adapter.setOnItemClickListener(
+				(view, position) -> {
+					Track selectedTrack = adapter.getItem(position).getTrack();
+					presenter.getTrack(selectedTrack.getTrackId(),
+							selectedTrack.getTrackName(),
+							selectedTrack.getArtistName(),
+							selectedTrack.getAlbumImageUrl());
+				});
+
 
 		// Refresh layout
 		refreshLayout.setOnRefreshListener(() -> presenter.loadTracks(true));
@@ -165,9 +177,13 @@ public class ChartActivity extends BaseActivity implements ChartContract.View {
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override public void showTrackDetail(Track track) {
-		Intent intent = new Intent();
-//		startActivity(intent);
+	@Override public void showTrackLyrics(Lyrics lyrics, String trackName, String trackArtist, String imageCoverUrl) {
+		Intent intent = new Intent(ChartActivity.this, LyricsActivity.class);
+		intent.putExtra("lyrics", (Serializable) lyrics);
+		intent.putExtra("track_name", trackName);
+		intent.putExtra("track_artist", trackArtist);
+		intent.putExtra("image_cover_url", imageCoverUrl);
+		startActivity(intent);
 	}
 }
 

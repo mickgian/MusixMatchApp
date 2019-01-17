@@ -13,6 +13,7 @@ import link.mgiannone.musixmatchapp.AndroidApplication;
 import link.mgiannone.musixmatchapp.R;
 import link.mgiannone.musixmatchapp.data.MusixMatchRepositoryComponent;
 import link.mgiannone.musixmatchapp.ui.chart.ChartActivity;
+import link.mgiannone.musixmatchapp.ui.lyrics.LyricsActivity;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -21,10 +22,6 @@ public class BaseActivity extends AppCompatActivity {
     protected MusixMatchRepositoryComponent getMusixMatchRepositoryComponent() {
         return ((AndroidApplication) getApplication()).getMusixMatchRepositoryComponent();
     }
-
-//  protected MusixMatchRepositoryComponent getLoginRepositoryComponent() {
-//    return ((AndroidApplication) getApplication()).getMusixMatchRepositoryComponent();
-//  }
 
     @Override
     public LifecycleRegistry getLifecycle() {
@@ -44,10 +41,9 @@ public class BaseActivity extends AppCompatActivity {
 
         if (context instanceof ChartActivity) {
             mTitleTextView.setText(getString(R.string.chart_activity_title));
+        } else if (context instanceof LyricsActivity) {
+	  	    mTitleTextView.setText(getString(R.string.lyrics_activity_title));
         }
-//      else if (context instanceof LoginActivity) {
-//	  	mTitleTextView.setText(getString(R.string.login_activity_title));
-//      }
 
         mActionBar.setCustomView(actionBar);
         mActionBar.setDisplayShowCustomEnabled(true);

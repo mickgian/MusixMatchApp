@@ -11,10 +11,13 @@
   <string name="msg_no_data">No data returned. Pull to refresh.</string>
 
   //Chart
-  <string name="chart_activity_title">Top 100 songs - Ireland</string>
+  <string name="chart_activity_title">MusixMatchApp - Top 100 songs - Ireland</string>
   <string name="data_loading">Loading tracks...</string>
   <string name="track_label_title">Song name:</string>
   <string name="track_label_artist">Artist:</string>
+
+  //Lyrics
+  <string name="lyrics_activity_title">MusixMatchApp - Lyrics</string>
 
   //Errors
   <string name="generic_error">Something has gone wrong. Try again.</string>

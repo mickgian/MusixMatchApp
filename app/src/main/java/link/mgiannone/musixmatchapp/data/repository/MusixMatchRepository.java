@@ -6,6 +6,7 @@ import androidx.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -13,6 +14,7 @@ import io.reactivex.Observable;
 import link.mgiannone.musixmatchapp.data.model.AlbumResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
+import link.mgiannone.musixmatchapp.data.model.LyricsResponse;
 
 public class MusixMatchRepository implements ChartDataSource {
 
@@ -21,6 +23,7 @@ public class MusixMatchRepository implements ChartDataSource {
 	private ChartDataSource remoteChartDataSource;
 	private ChartDataSource localChartDataSource;
 	private AlbumDataSource remoteAlbumDataSource;
+	private LyricsDataSource remoteLyricsDataSource;
 
 	@VisibleForTesting
 	List<TrackList> trackCaches;
@@ -28,10 +31,12 @@ public class MusixMatchRepository implements ChartDataSource {
 	@Inject
 	public MusixMatchRepository(@Local ChartDataSource localChartDataSource,
 								@Remote ChartDataSource remoteChartDataSource,
-								@Remote AlbumDataSource remoteAlbumDataSource) {
+								@Remote AlbumDataSource remoteAlbumDataSource,
+								@Remote LyricsDataSource lyricsDataSource) {
 		this.localChartDataSource = localChartDataSource;
 		this.remoteChartDataSource = remoteChartDataSource;
 		this.remoteAlbumDataSource = remoteAlbumDataSource;
+		this.remoteLyricsDataSource = lyricsDataSource;
 
 		trackCaches = new ArrayList<>();
 	}
@@ -61,23 +66,16 @@ public class MusixMatchRepository implements ChartDataSource {
 		return remoteAlbumDataSource.loadAlbumResponse(albumId, musixMatchApiKey);
 	}
 
+	public Observable<LyricsResponse> loadLyrics(int trackId, String musixMatchApiKey) {
+		return remoteLyricsDataSource.loadLyricsResponse(trackId,musixMatchApiKey);
+	}
+
 	public void clearCacheAndLocalDB() {
 		// Clear cache
 		trackCaches.clear();
 		// Clear data in local storage
 		new DeleteAllTracksAsyncTask(localChartDataSource).execute();
 	}
-
-//	/**
-//	 * Loads a question by its question id.
-//	 *
-//	 * @param trackId question's id.
-//	 * @return a corresponding question from cache.
-//	 */
-//	public Observable<Track> getTrack(long trackId) {
-//		return Observable.fromIterable(trackCaches).filter(track -> track.getId() == trackId);
-//	}
-
 
 	@Override
 	public Observable<List<TrackList>> getTracks() {
@@ -93,8 +91,6 @@ public class MusixMatchRepository implements ChartDataSource {
 		trackCaches.clear();
 		localChartDataSource.clearTracksData();
 	}
-
-
 
 	private static class DeleteAllTracksAsyncTask extends AsyncTask<Void, Void, Void> {
 		private ChartDataSource asyncTaskLocalChartDataSource;

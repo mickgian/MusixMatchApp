@@ -2,8 +2,8 @@ package link.mgiannone.musixmatchapp.ui.chart;
 
 import java.util.List;
 
-import link.mgiannone.musixmatchapp.data.model.ChartResponse.Track;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
+import link.mgiannone.musixmatchapp.data.model.LyricsResponse.Lyrics;
 import link.mgiannone.musixmatchapp.ui.base.BasePresenter;
 
 public interface ChartContract {
@@ -16,7 +16,7 @@ public interface ChartContract {
 
 		void showErrorMessage(String error);
 
-		void showTrackDetail(Track track);
+		void showTrackLyrics(Lyrics lyrics, String trackName, String trackArtist, String imageCoverUrl);
 
 		void stopLoadingIndicator();
 
@@ -41,7 +41,7 @@ public interface ChartContract {
 
 	interface Presenter extends BasePresenter<View> {
 
-		void getTrack(long trackId);
+		void getTrack(int trackId, String trackName, String trackArtist, String trackImageCoverUrl);
 
 	}
 }

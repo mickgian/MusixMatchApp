@@ -8,6 +8,7 @@ import dagger.Provides;
 import link.mgiannone.musixmatchapp.data.api.AlbumService;
 import link.mgiannone.musixmatchapp.data.api.ChartService;
 import link.mgiannone.musixmatchapp.data.api.HeaderInterceptor;
+import link.mgiannone.musixmatchapp.data.api.LyricsService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
@@ -82,5 +83,10 @@ public class MusixMatchApiServiceModule {
 		return retrofit.create(AlbumService.class);
 	}
 
+	@Provides
+	@Singleton
+	LyricsService provideLyricsService(Retrofit retrofit) {
+		return retrofit.create(LyricsService.class);
+	}
 }
 

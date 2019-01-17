@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/actionColor"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:visibility="gone"/>
 
