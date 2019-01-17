@@ -184,6 +184,8 @@ public class ChartResponse {
 		@NonNull
 		private String updatedTime;
 
+		@SerializedName("album_image_url")
+		@Expose
 		@NonNull
 		private String albumImageUrl;
 

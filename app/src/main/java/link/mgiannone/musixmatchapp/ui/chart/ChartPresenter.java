@@ -166,6 +166,7 @@ public class ChartPresenter implements ChartContract.Presenter, LifecycleObserve
 				for(int i = 0; i < tracks.size(); i++) {
 					if(tracks.get(i).getTrack().getAlbumId() == album.getAlbumId()){
 						tracks.get(i).getTrack().setAlbumImageUrl(album.getAlbumCoverart100x100());
+						repository.addTrack(tracks.get(i));
 					}
 				}
 

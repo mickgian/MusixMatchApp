@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import io.reactivex.functions.Consumer;
 import link.mgiannone.musixmatchapp.data.model.AlbumResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse;
 import link.mgiannone.musixmatchapp.data.model.ChartResponse.TrackList;
@@ -59,7 +60,13 @@ public class MusixMatchRepository implements ChartDataSource {
 
 	@Override
 	public Observable<ChartResponse> loadChartResponse(String chartName, int page, int pageSize, String country, int hasLyrics, String apiKey) {
-		return remoteChartDataSource.loadChartResponse(chartName, page, pageSize, country, hasLyrics, apiKey);
+		return remoteChartDataSource.loadChartResponse(chartName, page, pageSize, country, hasLyrics, apiKey)
+				.doOnNext(new Consumer<ChartResponse>() {
+					@Override
+					public void accept(ChartResponse chartResponse) throws Exception {
+						clearTracksData();
+					}
+				});
 	}
 
 	public Observable<AlbumResponse> loadAlbum(int albumId, String musixMatchApiKey) {
@@ -70,26 +77,21 @@ public class MusixMatchRepository implements ChartDataSource {
 		return remoteLyricsDataSource.loadLyricsResponse(trackId,musixMatchApiKey);
 	}
 
-	public void clearCacheAndLocalDB() {
+	@Override public void clearTracksData() {
 		// Clear cache
 		trackCaches.clear();
 		// Clear data in local storage
 		new DeleteAllTracksAsyncTask(localChartDataSource).execute();
 	}
+	@Override
+	public void addTrack(TrackList trackList) {
+		trackCaches.add(trackList);
+		new AddTracksAsyncTask(localChartDataSource, trackList).execute();
+	}
 
 	@Override
 	public Observable<List<TrackList>> getTracks() {
 		return null;
-	}
-
-	@Override
-	public void addTrack(TrackList trackList) {
-		throw new UnsupportedOperationException("Unsupported operation");
-	}
-
-	@Override public void clearTracksData() {
-		trackCaches.clear();
-		localChartDataSource.clearTracksData();
 	}
 
 	private static class DeleteAllTracksAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -104,6 +106,23 @@ public class MusixMatchRepository implements ChartDataSource {
 			asyncTaskLocalChartDataSource.clearTracksData();
 			return null;
 		}
+	}
+
+	private static class AddTracksAsyncTask extends AsyncTask<TrackList, Void, Void> {
+		private ChartDataSource asyncTaskLocalChartDataSource;
+		private TrackList trackList;
+
+		AddTracksAsyncTask(ChartDataSource localChartDataSource, TrackList trackList) {
+			asyncTaskLocalChartDataSource = localChartDataSource;
+			this.trackList = trackList;
+		}
+
+		@Override
+		protected Void doInBackground(TrackList... trackLists) {
+			asyncTaskLocalChartDataSource.addTrack(trackList);
+			return null;
+		}
+
 	}
 }
 
